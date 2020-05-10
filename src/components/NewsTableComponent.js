@@ -8,13 +8,16 @@ import MaterialTable from "material-table";
 import LineChart from "../components/LineChart";
 import { isValidData } from "../utils";
 
+const moment = require("moment");
 const NewsTableComponent = ({ newsData }) => {
   const { page, totalPages, data, loading } = newsData;
   const { hits } = data;
   const columns = [
     { title: "Comments", field: "num_comments", width: 100 },
     { title: "Vote Count", field: "points", width: 170 },
-    { title: "News Details", field: "title" }
+    { title: "News Details", field: "title" },
+    { title: "Author", field: "author", width: 100 },
+    { title: "Created At", field: "created_at", width: 150 }
   ];
   const dispatch = useDispatch();
   useEffect(() => {
@@ -34,8 +37,13 @@ const NewsTableComponent = ({ newsData }) => {
         // data={hits.filter(e => isValidData(e.num_comments))}
         data={hits.map(e => {
           return isValidData(e.num_comments)
-            ? e
-            : { ...e, num_comments: 0, title: "NA" };
+            ? { ...e, created_at: moment(e.created_at).fromNow() }
+            : {
+                ...e,
+                num_comments: 0,
+                title: "NA",
+                created_at: moment(e.created_at).fromNow()
+              };
         })}
         actions={[
           {
