@@ -6,9 +6,9 @@ import ReactDOMServer from "react-dom/server";
 import { Provider } from "react-redux";
 import Html from "../src/Html";
 import App from "../src/App";
-import store, { appReducer } from "../src/redux/store";
+import store from "../src/redux/store";
 
-const PORT = 8000;
+const port = process.env.PORT || 8080;
 
 const app = express();
 
@@ -42,6 +42,6 @@ app.use("^/$", (req, res, next) => {
 
 app.use(express.static(path.resolve(__dirname, "..", "build")));
 
-app.listen(PORT, () => {
-  console.log(`App launched on ${PORT}`);
+app.listen(port, () => {
+  console.log(`App launched on ${port}`);
 });
