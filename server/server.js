@@ -19,6 +19,7 @@ app.use("^/$", (req, res, next) => {
       return res.status(500).send("Some error happened");
     }
 
+    const scripts = ["vendor.js", "client.js"];
     const initialState = { test: "data" };
     const appMarkup = ReactDOMServer.renderToString(
       <Provider store={store}>
@@ -26,7 +27,11 @@ app.use("^/$", (req, res, next) => {
       </Provider>
     );
     const html = ReactDOMServer.renderToStaticMarkup(
-      <Html children={appMarkup} initialState={initialState} />
+      <Html
+        children={appMarkup}
+        initialState={initialState}
+        scripts={scripts}
+      />
     );
 
     return res.send(

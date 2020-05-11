@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getData } from "./redux/store";
 import NewsTableComponent from "./components/NewsTableComponent";
+import LinearProgress from "@material-ui/core/LinearProgress";
 import { initStorage } from "./utils";
 
 function App() {
@@ -17,7 +18,15 @@ function App() {
     initStorage();
   }, [page]);
 
-  return <>{totalPages > 0 && <NewsTableComponent newsData={newsData} />}</>;
+  return (
+    <>
+      {totalPages > 0 ? (
+        <NewsTableComponent newsData={newsData} />
+      ) : (
+        <LinearProgress />
+      )}
+    </>
+  );
 }
 
 export default App;
