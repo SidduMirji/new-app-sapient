@@ -16,10 +16,6 @@ const Html = ({ children, initialState, scripts }) => (
           }}
         />
       )}
-
-      {scripts.map((item, index) => (
-        <script key={index} src={item} />
-      ))}
     </body>
   </html>
 );

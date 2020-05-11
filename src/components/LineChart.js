@@ -16,7 +16,6 @@ const LineChart = ({ chartData }) => {
         pointBorderColor: "#bae755",
         pointHoverBackgroundColor: "#55bae7",
         pointHoverBorderColor: "#55bae7",
-
         data: chartData.map(e => e.points)
       }
     ]
