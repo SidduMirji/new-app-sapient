@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { getData } from "./redux/store";
 import NewsTableComponent from "./components/NewsTableComponent";
+import { initStorage } from "./utils";
 
 function App() {
   const newsData = useSelector(state => state.appData);
@@ -13,6 +14,7 @@ function App() {
 
   useEffect(() => {
     dispatch(getData({ page: page - 1 }));
+    initStorage();
   }, [page]);
 
   return <>{totalPages > 0 && <NewsTableComponent newsData={newsData} />}</>;

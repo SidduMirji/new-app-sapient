@@ -30,7 +30,7 @@ const initialState = {
   }
 };
 
-const appReducer = (state = initialState, action) => {
+export const appReducer = (state = initialState, action) => {
   const { type, payload } = action;
   switch (type) {
     case PAGE_ACTIONS.UPDATE_PAGE:
@@ -67,6 +67,18 @@ const appReducer = (state = initialState, action) => {
         data: {
           ...state.data,
           hits: payload.hits
+            .filter(
+              f =>
+                !JSON.parse(sessionStorage.getItem("hiddenIDs")).includes(
+                  f.objectID
+                )
+            )
+            .map(e => {
+              const updatedItem = JSON.parse(
+                sessionStorage.getItem("votesData")
+              ).find(i => i.objectID === e.objectID);
+              return updatedItem ? { ...e, points: updatedItem.points } : e;
+            })
         },
         totalPages: payload.nbPages
       };

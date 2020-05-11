@@ -2,7 +2,6 @@ import React from "react";
 import { Line } from "react-chartjs-2";
 
 const LineChart = ({ chartData }) => {
-  console.log("chartData", chartData);
   const cdata = {
     labels: chartData.map(e => e.objectID),
     datasets: [

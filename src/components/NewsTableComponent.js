@@ -6,7 +6,11 @@ import Box from "@material-ui/core/Box";
 import PAGE_ACTIONS from "../redux/action-constants";
 import MaterialTable from "material-table";
 import LineChart from "../components/LineChart";
-import { isValidData } from "../utils";
+import {
+  isValidData,
+  saveDeletedDataStorage,
+  updateVotesDataStorage
+} from "../utils";
 
 const moment = require("moment");
 const NewsTableComponent = ({ newsData }) => {
@@ -20,10 +24,6 @@ const NewsTableComponent = ({ newsData }) => {
     { title: "Created At", field: "created_at", width: 150 }
   ];
   const dispatch = useDispatch();
-  useEffect(() => {
-    // dispatch(getData({ page }));
-  }, []);
-
   const handleChange = (event, value) => {
     dispatch({ type: PAGE_ACTIONS.UPDATE_PAGE, payload: value });
   };
@@ -49,21 +49,30 @@ const NewsTableComponent = ({ newsData }) => {
           {
             icon: "thumb_up_alt",
             tooltip: "Vote",
-            onClick: (event, rowData) =>
+            onClick: (event, rowData) => {
               dispatch({
                 type: PAGE_ACTIONS.UPDATE_VOTE,
                 payload: rowData.objectID
-              })
+              });
+              console.log(rowData);
+              const { points, objectID } = rowData;
+              updateVotesDataStorage({
+                points: points + 1,
+                objectID
+              });
+            }
           },
-          rowData => ({
+          {
             icon: "visibility_off",
             tooltip: "Hide",
-            onClick: (event, rowData) =>
+            onClick: (event, rowData) => {
               dispatch({
                 type: PAGE_ACTIONS.HIDE_DATA,
                 payload: rowData.objectID
-              })
-          })
+              });
+              saveDeletedDataStorage(rowData.objectID);
+            }
+          }
         ]}
         options={{
           actionsColumnIndex: -1,
